@@ -101,4 +101,21 @@ describe('SignUp Controller', () => {
     // para objetos, arrays e funções, o toEqual compara o conteúdo, se usar o toBe, ele compara a referência
     expect(httpResponse.body).toEqual(new InvalidParamError('email'))
   })
+
+  test('Should call EmailValidator with correct email', () => {
+    const { sut, emailValidatorStub } = makeSut()
+
+    const isValid = jest.spyOn(emailValidatorStub, 'isValid')
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@gmail.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password'
+      }
+    }
+    sut.handle(httpRequest)
+    expect(isValid).toHaveBeenCalledWith('any_email@gmail.com')
+  })
 })
