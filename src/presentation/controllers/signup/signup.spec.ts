@@ -197,4 +197,24 @@ describe('SignUp Controller', () => {
       password: 'any_password'
     })
   })
+
+  test('Should return 500 if AddAccount throws', () => {
+    const { sut, addAccountStub } = makeSut()
+    jest.spyOn(addAccountStub, 'add').mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@gmail.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password'
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    // para objetos, arrays e funções, o toEqual compara o conteúdo, se usar o toBe, ele compara a referência
+    expect(httpResponse.body).toEqual(new ServerError())
+  })
 })
