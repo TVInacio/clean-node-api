@@ -11,6 +11,9 @@ module.exports = {
   // The test environment that will be used for testing
   testEnvironment: 'node',
 
+  // Configuration for jest-mongodb
+  preset: '@shelf/jest-mongodb',
+
   // A map from regular expressions to paths to transformers, needed to support TypeScript
   transform: {
     '.+\\.ts$': 'ts-jest'
